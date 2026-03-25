@@ -1,44 +1,54 @@
 # 📚 Revisão de Java (POO, Listas e Mapas)
 
-Este repositório contém um resumo prático e direto dos principais conceitos de **Programação Orientada a Objetos (POO)** e **Estruturas de Dados** em Java. Criado como material de consulta rápida e estudos para provas.
+Este repositório contém um resumo prático e direto dos principais conceitos de **Programação Orientada a Objetos (POO)** e **Estruturas de Dados** em Java, focado na resolução de exercícios de fixação.
 
 ---
 
 ## 📌 Índice
-1. [Polimorfismo de Sobrecarga](#1-polimorfismo-de-sobrecarga)
-2. [Herança e Polimorfismo de Sobreposição](#2-herança-e-polimorfismo-de-sobreposição)
-3. [Listas Dinâmicas (ArrayList)](#3-listas-dinâmicas-arraylist)
-4. [Mapas (HashMap)](#4-mapas-hashmap)
+1. [Polimorfismo de Sobrecarga (Calculadora de Área)](#1-polimorfismo-de-sobrecarga)
+2. [Polimorfismo de Sobreposição (Sistema de Funcionários)](#2-herança-e-polimorfismo-de-sobreposição)
+3. [Listas Dinâmicas (ArrayList e seus métodos)](#3-listas-dinâmicas-arraylist)
+4. [Mapas (HashMap: O Dicionário do Java)](#4-mapas-hashmap)
 
 ---
 
 ## 1. Polimorfismo de Sobrecarga
-**Conceito:** Acontece quando temos **vários métodos com o mesmo nome** na mesma classe, mas eles recebem **parâmetros diferentes** (quantidade ou tipo). O Java descobre qual usar na hora em que você chama o método.
+**Regra do Exercício:** Criar uma classe `CalculadoraDeArea` com o mesmo método `calcularArea()` para Quadrado, Retângulo e Círculo, diferenciando apenas pelos parâmetros.
 
 ```java
 public class CalculadoraDeArea {
     
-    // 1 parâmetro (lado)
+    // 1. Quadrado (1 parâmetro: lado)
     public double calcularArea(double lado) {
         return lado * lado;
     }
 
-    // 2 parâmetros (base e altura)
+    // 2. Retângulo (2 parâmetros: base e altura)
     public double calcularArea(double base, double altura) {
         return base * altura;
     }
 
-    // 1 parâmetro (raio), mas a lógica é diferente do quadrado
+    // 3. Círculo (1 parâmetro: raio) - Usa Math.PI
     public double calcularArea(double raio) {
         return Math.PI * (raio * raio);
     }
+
+    // TESTANDO NO MAIN
+    public static void main(String[] args) {
+        CalculadoraDeArea calc = new CalculadoraDeArea();
+        System.out.println("Área Quadrado: " + calc.calcularArea(5.0));
+        System.out.println("Área Retângulo: " + calc.calcularArea(5.0, 10.0));
+        System.out.println("Área Círculo: " + calc.calcularArea(3.0));
+    }
 }
+```
+
+---
 
 ## 2. Herança e Polimorfismo de Sobreposição
-Conceito: Uma classe "Filha" herda as características da classe "Pai" usando a palavra extends. O Polimorfismo de Sobreposição acontece quando o filho reescreve a regra do pai usando a anotação @Override.
+**Regra do Exercício:** Criar um sistema onde `Gerente` ganha +20% e `Estagiario` ganha 80% do salário base do `Funcionario`. Todos devem ir para uma lista e ter seus salários impressos.
 
-💡 Dica de Prova: Herança serve para reaproveitar código. Sobreposição serve para adaptar o comportamento!
-
+```java
 // CLASSE PAI
 class Funcionario {
     String nome;
@@ -50,72 +60,134 @@ class Funcionario {
     }
 
     public double calcularSalario() {
-        return salarioBase; // Salário padrão
+        return salarioBase; // Funcionário Regular
     }
 }
 
-// CLASSE FILHA (Gerente)
+// CLASSES FILHAS
 class Gerente extends Funcionario {
-    
-    public Gerente(String nome, double salarioBase) {
-        super(nome, salarioBase); // Manda os dados para o construtor do Pai
-    }
+    public Gerente(String nome, double salarioBase) { super(nome, salarioBase); }
 
-    @Override // Reescrevendo a regra!
-    public double calcularSalario() {
-        return salarioBase * 1.20; // Gerente ganha 20% de bônus
+    @Override
+    public double calcularSalario() { return salarioBase * 1.20; } // +20%
+}
+
+class Estagiario extends Funcionario {
+    public Estagiario(String nome, double salarioBase) { super(nome, salarioBase); }
+
+    @Override
+    public double calcularSalario() { return salarioBase * 0.80; } // 80%
+}
+
+// TESTANDO NO MAIN
+import java.util.ArrayList;
+
+public class SistemaFuncionarios {
+    public static void main(String[] args) {
+        // Criando a lista que aceita qualquer Funcionário
+        ArrayList<Funcionario> lista = new ArrayList<>();
+        
+        lista.add(new Funcionario("João (Regular)", 2000.0));
+        lista.add(new Gerente("Maria (Gerente)", 2000.0));
+        lista.add(new Estagiario("Pedro (Estagiário)", 2000.0));
+
+        // Percorrendo a lista e acionando o polimorfismo
+        for (Funcionario f : lista) {
+            System.out.println("Nome: " + f.nome + " | Salário Final: R$ " + f.calcularSalario());
+        }
     }
 }
+```
+
+---
 
 ## 3. Listas Dinâmicas (ArrayList)
-Conceito: Diferente do Array tradicional ([]) que tem tamanho fixo, o ArrayList tem tamanho dinâmico. Ele cresce e diminui automaticamente conforme adicionamos ou removemos itens.
+**Regra do Exercício:** Utilizar os principais métodos do ArrayList (Adicionar, checar tamanho, conter, remover com condição, ordenar e calcular média).
 
+```java
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class ExemploLista {
     public static void main(String[] args) {
-        // Criando a lista
-        ArrayList<String> carros = new ArrayList<>();
+        ArrayList<Integer> numeros = new ArrayList<>();
 
-        // Adicionando itens
-        carros.add("Volvo");
-        carros.add("BMW");
+        // Adicionando elementos
+        numeros.add(10);
+        numeros.add(5);
+        numeros.add(20);
+        numeros.add(15);
 
-        // Tamanho da lista
-        System.out.println("Tamanho: " + carros.size());
+        // Imprimir tamanho e verificar se existe
+        System.out.println("Tamanho da lista: " + numeros.size());
+        System.out.println("Contém o número 20? " + numeros.contains(20));
 
-        // Verificando se existe um item
-        System.out.println("Tem BMW? " + carros.contains("BMW"));
+        // Ordenar a lista
+        Collections.sort(numeros);
+        System.out.println("Lista Ordenada: " + numeros);
 
-        // Ordenando em ordem alfabética
-        Collections.sort(carros);
+        // Remover todos os números pares da lista
+        numeros.removeIf(n -> n % 2 == 0); 
+        System.out.println("Sem números pares: " + numeros);
+
+        // Calcular a média
+        double soma = 0;
+        for (Integer num : numeros) {
+            soma += num;
+        }
+        System.out.println("Média final: " + (soma / numeros.size()));
     }
 }
+```
+
+---
 
 ## 4. Mapas (HashMap)
-Conceito: Armazena dados no formato Chave / Valor. É como um dicionário do mundo real: você busca por uma palavra (chave) e ele te devolve o significado (valor).
+**Regra do Exercício:** Passo a passo completo das 10 requisições do exercício prático sobre HashMap (myMap).
 
+```java
 import java.util.HashMap;
 
 public class ExemploMapa {
     public static void main(String[] args) {
-        // Criando o Mapa (Chave String, Valor String)
-        HashMap<String, String> capitais = new HashMap<>();
+        
+        // 1. Crie um HashMap vazio chamado "myMap"
+        HashMap<String, String> myMap = new HashMap<>();
 
-        // Adicionando itens (Usamos .put em vez de .add)
-        capitais.put("Brasil", "Brasília");
-        capitais.put("Inglaterra", "Londres");
+        // 2. Adicione a chave "nome" e o valor "João"
+        myMap.put("nome", "João");
 
-        // Pegando um valor específico usando a chave
-        System.out.println("Capital do Brasil: " + capitais.get("Brasil"));
+        // 3. Verifique se contém a chave "nome"
+        System.out.println("Tem a chave 'nome'? " + myMap.containsKey("nome"));
 
-        // Removendo um item
-        capitais.remove("Inglaterra");
+        // 4. Adicione mais três pares chave-valor
+        myMap.put("idade", "25");
+        myMap.put("cidade", "São Paulo");
+        myMap.put("curso", "Java");
 
-        // Imprimindo todas as chaves
-        for (String pais : capitais.keySet()) {
-            System.out.println(pais);
+        // 5. Obtenha o valor associado à chave "idade"
+        System.out.println("Idade: " + myMap.get("idade"));
+
+        // 6. Remova a chave "nome"
+        myMap.remove("nome");
+
+        // 7. Verifique se está vazio
+        System.out.println("Está vazio? " + myMap.isEmpty());
+
+        // 8. Obtenha o tamanho atual
+        System.out.println("Tamanho atual: " + myMap.size());
+
+        // 9. Percorra e imprima todas as CHAVES
+        System.out.println("--- CHAVES ---");
+        for (String chave : myMap.keySet()) {
+            System.out.println(chave);
+        }
+
+        // 10. Percorra e imprima todos os VALORES
+        System.out.println("--- VALORES ---");
+        for (String valor : myMap.values()) {
+            System.out.println(valor);
         }
     }
 }
+```
