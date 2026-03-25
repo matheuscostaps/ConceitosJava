@@ -190,4 +190,24 @@ public class ExemploMapa {
         }
     }
 }
+
+---
+
+## 🧠 Glossário de Conceitos Teóricos
+
+Para além da prática, aqui estão os conceitos fundamentais (baseados nos slides das aulas) para garantires a nota máxima na teoria:
+
+* **Classe vs Objeto:** A **Classe** é o molde ou a planta de construção (ex: a planta em papel de uma casa). O **Objeto** é a instância real e física criada a partir desse molde (ex: a casa construída com tijolos). 
+
+* **Encapsulamento:** É a proteção dos dados. Escondemos as variáveis da classe (usando a palavra `private`) para que não sejam alteradas indevidamente por quem está de fora, permitindo o acesso apenas através de "portas seguras" (os métodos `get` e `set`). 
+
+* **Herança (`extends`):** É o pilar que permite que uma classe "Filha" herde características e ações (atributos e métodos) de uma classe "Pai". O seu maior benefício é a **reutilização de código**, evitando repetir as mesmas linhas várias vezes. 
+
+* **Polimorfismo de Sobrecarga (Overloading):** Consiste em ter vários métodos com o **mesmo nome** dentro da mesma classe, mas que recebem **parâmetros diferentes** (diferente quantidade ou tipo de variáveis). O Java sabe qual usar pela quantidade de itens que enviamos.
+
+* **Polimorfismo de Sobreposição (Overriding):** Acontece quando uma classe Filha herda um método da classe Pai, mas decide **reescrever (sobrepor)** as regras desse método para adaptar ao seu próprio comportamento (identificado pela anotação `@Override`). 
+
+* **Array vs ArrayList:** O Array tradicional (`[]`) tem um **tamanho fixo** (se tem 5 espaços, será assim para sempre). O **ArrayList** é uma lista de **tamanho dinâmico**, que cresce e encolhe magicamente e automaticamente à medida que adicionamos (`.add()`) ou removemos itens. 
+
+* **HashMap:** É uma estrutura de dados de busca super rápida que não guarda os itens por ordem numérica, mas sim em pares de **Chave e Valor** (como um dicionário real: procuras a palavra-chave e recebes o seu significado/valor).
 ```
