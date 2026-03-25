@@ -1,179 +1,121 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+# 📚 Revisão de Java (POO, Listas e Mapas)
 
-// ============================================================================
-// PARTE 1: POLIMORFISMO DE SOBRECARGA (Method Overloading)
-// Conceito: Mesma ação (nome do método), mas com parâmetros diferentes.
-// ============================================================================
-class CalculadoraDeArea {
+Este repositório contém um resumo prático e direto dos principais conceitos de **Programação Orientada a Objetos (POO)** e **Estruturas de Dados** em Java. Criado como material de consulta rápida e estudos para provas.
+
+---
+
+## 📌 Índice
+1. [Polimorfismo de Sobrecarga](#1-polimorfismo-de-sobrecarga)
+2. [Herança e Polimorfismo de Sobreposição](#2-herança-e-polimorfismo-de-sobreposição)
+3. [Listas Dinâmicas (ArrayList)](#3-listas-dinâmicas-arraylist)
+4. [Mapas (HashMap)](#4-mapas-hashmap)
+
+---
+
+## 1. Polimorfismo de Sobrecarga
+**Conceito:** Acontece quando temos **vários métodos com o mesmo nome** na mesma classe, mas eles recebem **parâmetros diferentes** (quantidade ou tipo). O Java descobre qual usar na hora em que você chama o método.
+
+```java
+public class CalculadoraDeArea {
     
-    // 1. Área do Quadrado (1 parâmetro)
+    // 1 parâmetro (lado)
     public double calcularArea(double lado) {
         return lado * lado;
     }
 
-    // 2. Área do Retângulo (2 parâmetros)
+    // 2 parâmetros (base e altura)
     public double calcularArea(double base, double altura) {
         return base * altura;
     }
 
-    // 3. Área do Círculo (1 parâmetro, mas a fórmula muda)
-    // Math.PI é uma ferramenta do Java que traz o valor de Pi (3.1415...)
+    // 1 parâmetro (raio), mas a lógica é diferente do quadrado
     public double calcularArea(double raio) {
         return Math.PI * (raio * raio);
     }
 }
 
-// ============================================================================
-// PARTE 2: HERANÇA E POLIMORFISMO DE SOBREPOSIÇÃO (Method Overriding)
-// Conceito: Classes filhas herdam características do pai, mas reescrevem as regras.
-// ============================================================================
+## 2. Herança e Polimorfismo de Sobreposição
+Conceito: Uma classe "Filha" herda as características da classe "Pai" usando a palavra extends. O Polimorfismo de Sobreposição acontece quando o filho reescreve a regra do pai usando a anotação @Override.
+
+💡 Dica de Prova: Herança serve para reaproveitar código. Sobreposição serve para adaptar o comportamento!
+
+// CLASSE PAI
 class Funcionario {
     String nome;
     double salarioBase;
 
-    // Construtor: Ensina como criar um funcionário rapidamente
     public Funcionario(String nome, double salarioBase) {
         this.nome = nome;
         this.salarioBase = salarioBase;
     }
 
-    // Método original do Pai (Funcionário Regular)
     public double calcularSalario() {
-        return salarioBase; 
+        return salarioBase; // Salário padrão
     }
 }
 
+// CLASSE FILHA (Gerente)
 class Gerente extends Funcionario {
     
-    // O construtor do filho precisa repassar as infos para o pai usando "super"
     public Gerente(String nome, double salarioBase) {
-        super(nome, salarioBase);
+        super(nome, salarioBase); // Manda os dados para o construtor do Pai
     }
 
-    // Polimorfismo de Sobreposição: Reescrevendo a regra do salário
-    @Override
+    @Override // Reescrevendo a regra!
     public double calcularSalario() {
-        return salarioBase * 1.20; // Salário base + 20% de bônus
+        return salarioBase * 1.20; // Gerente ganha 20% de bônus
     }
 }
 
-class Estagiario extends Funcionario {
-    
-    public Estagiario(String nome, double salarioBase) {
-        super(nome, salarioBase);
-    }
+## 3. Listas Dinâmicas (ArrayList)
+Conceito: Diferente do Array tradicional ([]) que tem tamanho fixo, o ArrayList tem tamanho dinâmico. Ele cresce e diminui automaticamente conforme adicionamos ou removemos itens.
 
-    @Override
-    public double calcularSalario() {
-        return salarioBase * 0.80; // Recebe 80% do salário base
-    }
-}
+import java.util.ArrayList;
+import java.util.Collections;
 
-// ============================================================================
-// CLASSE PRINCIPAL (Onde o programa roda)
-// ============================================================================
-public class GuiaDeEstudos {
-
+public class ExemploLista {
     public static void main(String[] args) {
-        
-        System.out.println("====== TESTE 1: SOBRECARGA ======");
-        CalculadoraDeArea calc = new CalculadoraDeArea();
-        System.out.println("Area Quadrado: " + calc.calcularArea(5.0));
-        System.out.println("Area Retangulo: " + calc.calcularArea(5.0, 10.0));
-        System.out.println("Area Circulo: " + calc.calcularArea(3.0));
+        // Criando a lista
+        ArrayList<String> carros = new ArrayList<>();
 
-        System.out.println("\n====== TESTE 2: HERANCA E SOBREPOSICAO ======");
-        // Criando uma lista que aceita qualquer tipo de Funcionario (Pai ou Filhos)
-        ArrayList<Funcionario> listaFuncionarios = new ArrayList<>();
-        
-        listaFuncionarios.add(new Funcionario("Joao (Regular)", 2000.0));
-        listaFuncionarios.add(new Gerente("Maria (Gerente)", 2000.0));
-        listaFuncionarios.add(new Estagiario("Pedro (Estagiario)", 2000.0));
+        // Adicionando itens
+        carros.add("Volvo");
+        carros.add("BMW");
 
-        // Laço for para percorrer a lista de objetos e calcular dinamicamente
-        for (Funcionario f : listaFuncionarios) {
-            System.out.println("Nome: " + f.nome + " | Salario Final: R$ " + f.calcularSalario());
-        }
+        // Tamanho da lista
+        System.out.println("Tamanho: " + carros.size());
 
-        System.out.println("\n====== TESTE 3: ARRAYLIST ======");
-        revisaoArrayList();
+        // Verificando se existe um item
+        System.out.println("Tem BMW? " + carros.contains("BMW"));
 
-        System.out.println("\n====== TESTE 4: HASHMAP ======");
-        revisaoHashMap();
+        // Ordenando em ordem alfabética
+        Collections.sort(carros);
     }
+}
 
-    // ============================================================================
-    // MÉTODOS DE REVISÃO (Listas e Mapas)
-    // ============================================================================
-    
-    public static void revisaoArrayList() {
-        // 1. Criar ArrayList e adicionar elementos
-        ArrayList<String> frutas = new ArrayList<>();
-        frutas.add("Maca");
-        frutas.add("Banana");
-        frutas.add("Laranja");
+## 4. Mapas (HashMap)
+Conceito: Armazena dados no formato Chave / Valor. É como um dicionário do mundo real: você busca por uma palavra (chave) e ele te devolve o significado (valor).
 
-        // Imprimir tamanho e verificar se elemento existe (.contains)
-        System.out.println("Tamanho da lista: " + frutas.size());
-        System.out.println("Tem Banana? " + frutas.contains("Banana"));
+import java.util.HashMap;
 
-        // 5. Remover pares de uma lista de números inteiros
-        ArrayList<Integer> numeros = new ArrayList<>();
-        numeros.add(10); numeros.add(15); numeros.add(20); numeros.add(25);
-        numeros.removeIf(n -> n % 2 == 0); // Comando mágico para remover baseado em condição
-        System.out.println("Numeros apos remover pares: " + numeros);
+public class ExemploMapa {
+    public static void main(String[] args) {
+        // Criando o Mapa (Chave String, Valor String)
+        HashMap<String, String> capitais = new HashMap<>();
 
-        // 6. Ordenar lista em ordem alfabética (Usamos a classe Collections)
-        Collections.sort(frutas);
-        System.out.println("Frutas em ordem alfabetica: " + frutas);
+        // Adicionando itens (Usamos .put em vez de .add)
+        capitais.put("Brasil", "Brasília");
+        capitais.put("Inglaterra", "Londres");
 
-        // 8. Calcular a média dos números
-        ArrayList<Double> notas = new ArrayList<>();
-        notas.add(7.0); notas.add(8.5); notas.add(10.0);
-        double soma = 0;
-        for (Double nota : notas) {
-            soma += nota; // Vai somando todas as notas
-        }
-        System.out.println("Media das notas: " + (soma / notas.size()));
-    }
+        // Pegando um valor específico usando a chave
+        System.out.println("Capital do Brasil: " + capitais.get("Brasil"));
 
-    public static void revisaoHashMap() {
-        // 1. Criar um HashMap vazio (Chave, Valor)
-        HashMap<String, String> myMap = new HashMap<>();
+        // Removendo um item
+        capitais.remove("Inglaterra");
 
-        // 2. Adicionar chave "nome" e valor "Joao" (Usamos o .put)
-        myMap.put("nome", "Joao");
-
-        // 3. Verificar se contem a chave (.containsKey)
-        System.out.println("Contem a chave 'nome'? " + myMap.containsKey("nome"));
-
-        // 4. Adicionar mais 3 pares
-        myMap.put("idade", "25");
-        myMap.put("cidade", "Sao Paulo");
-        myMap.put("profissao", "Dev Java");
-
-        // 5. Obter o valor associado à chave (.get)
-        System.out.println("Idade do usuario: " + myMap.get("idade"));
-
-        // 6. Remover a chave
-        myMap.remove("nome");
-
-        // 7 e 8. Verificar se esta vazio e obter tamanho
-        System.out.println("O mapa esta vazio? " + myMap.isEmpty());
-        System.out.println("Tamanho do mapa: " + myMap.size());
-
-        // 9. Percorrer TODAS AS CHAVES (.keySet())
-        System.out.println("- Lista de Chaves:");
-        for (String chave : myMap.keySet()) {
-            System.out.println(chave);
-        }
-
-        // 10. Percorrer TODOS OS VALORES (.values())
-        System.out.println("- Lista de Valores:");
-        for (String valor : myMap.values()) {
-            System.out.println(valor);
+        // Imprimindo todas as chaves
+        for (String pais : capitais.keySet()) {
+            System.out.println(pais);
         }
     }
 }
